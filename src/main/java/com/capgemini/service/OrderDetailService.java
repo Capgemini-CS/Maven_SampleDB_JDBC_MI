@@ -1,6 +1,7 @@
 package com.capgemini.service;
 import com.capgemini.exception.InvalidQuery;
 import com.capgemini.model.OrderDetail;
+import com.capgemini.repository.OrderDetailRepository;
 import com.capgemini.repository.RepositoryInterface;
 import com.capgemini.service.dto.OrderDetailDTO;
 import com.capgemini.service.mapper.OrderDetailsMapper;
@@ -54,5 +55,8 @@ public class OrderDetailService {
         }
     }
 
+    public void showOrdersByIdAndHisProducts(String inputProductCode) throws InvalidQuery {
+        orderDetailRepositoryInterface.showOrdersAndProducts(inputProductCode);
+    }
 }
 

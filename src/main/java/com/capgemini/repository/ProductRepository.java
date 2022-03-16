@@ -3,6 +3,7 @@ package com.capgemini.repository;
 import com.capgemini.connection.ConnectionManager;
 import com.capgemini.connection.MySQLConnectionManager;
 import com.capgemini.exception.InvalidQuery;
+import com.capgemini.model.OrderDetail;
 import com.capgemini.model.Product;
 import org.tinylog.Logger;
 
@@ -102,6 +103,12 @@ public class ProductRepository implements RepositoryInterface<Product>{
             Logger.warn("Check you query or your parameters.");
             throw new InvalidQuery("You didn't enter the correct parameters or the object entered already exists.");
         }
+    }
+
+    @Override
+    public List<OrderDetail> showOrdersAndProducts(String inputProductCode) {
+        System.out.println("bla");
+        return null;
     }
 
     public List<Product> showTheAverageValue() throws InvalidQuery {
