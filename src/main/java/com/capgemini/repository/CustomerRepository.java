@@ -5,6 +5,7 @@ import com.capgemini.connection.MySQLConnectionManager;
 import com.capgemini.exception.InvalidQuery;
 import com.capgemini.model.Customer;
 import com.capgemini.model.OrderDetail;
+import com.capgemini.model.Product;
 import org.tinylog.Logger;
 
 import java.sql.PreparedStatement;
@@ -81,6 +82,16 @@ public class CustomerRepository implements RepositoryInterface<Customer> {
     public List<OrderDetail> showOrdersAndProducts(String inputProductCode) {
         System.out.println("bin");
         return null;
+    }
+
+    @Override
+    public void addRecord(Customer customer, ConnectionManager conn) throws InvalidQuery {
+
+    }
+
+    @Override
+    public void executeInsertProduct_Order(Product product, OrderDetail orderDetail, ConnectionManager conn) throws InvalidQuery {
+
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.capgemini.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@AllArgsConstructor
 public class OrderDetail {
     @Getter @Setter private int orderNumber;
     @Getter @Setter private String productCode;

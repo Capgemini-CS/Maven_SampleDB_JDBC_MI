@@ -4,8 +4,10 @@ import com.capgemini.connection.ConnectionManager;
 import com.capgemini.connection.MySQLConnectionManager;
 import com.capgemini.exception.InvalidQuery;
 import com.capgemini.model.OrderDetail;
+import com.capgemini.model.Product;
 import org.tinylog.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -120,5 +122,31 @@ public class OrderDetailRepository implements RepositoryInterface<OrderDetail> {
             throw new InvalidQuery("Your query is incorrect or could not be performed.");
         }
         return orders;
+    }
+
+    @Override
+    public void addRecord(OrderDetail orderDetail, ConnectionManager conn) throws InvalidQuery {
+        String insertOneOrder = "insert into orderdetails values(?,?,?,?,?)";
+        try (Connection connection = connectionManager.getConnection();
+            PreparedStatement statement = connection.prepareStatement(insertOneOrder)){
+
+            connection.setAutoCommit(false);
+
+            statement.setInt(1,orderDetail.getOrderNumber());
+            statement.setString(2, orderDetail.getProductCode());
+            statement.setInt(3,orderDetail.getQuantityOrdered());
+            statement.setDouble(4,orderDetail.getPriceEach());
+            statement.setInt(5,orderDetail.getOrderLineNumber());
+
+            connection.commit();
+        } catch (SQLException e) {
+            Logger.warn("Check you query or your parameters.");
+            throw new InvalidQuery("You didn't enter the correct parameters or the object entered already exists.");
+        }
+    }
+
+    @Override
+    public void executeInsertProduct_Order(Product product, OrderDetail orderDetail, ConnectionManager conn) throws InvalidQuery {
+
     }
 }

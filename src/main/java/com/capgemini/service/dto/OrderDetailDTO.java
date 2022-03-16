@@ -1,8 +1,10 @@
 package com.capgemini.service.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@AllArgsConstructor
 public class OrderDetailDTO {
 
     @Getter @Setter private int orderNumber;

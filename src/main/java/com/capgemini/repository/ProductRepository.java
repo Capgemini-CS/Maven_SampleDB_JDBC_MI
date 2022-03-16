@@ -5,8 +5,10 @@ import com.capgemini.connection.MySQLConnectionManager;
 import com.capgemini.exception.InvalidQuery;
 import com.capgemini.model.OrderDetail;
 import com.capgemini.model.Product;
+import com.capgemini.service.dto.ProductDTO;
 import org.tinylog.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -145,4 +147,59 @@ public class ProductRepository implements RepositoryInterface<Product>{
         return products;
     }
 
+    @Override
+    public void addRecord(Product product, ConnectionManager conn) throws InvalidQuery {
+        String insertProduct = "insert into products values (?,?,?,?,?,?,?,?,?,?)";
+        try(Connection connection = connectionManager.getConnection(); PreparedStatement statement = connection.prepareStatement(insertProduct)) {
+
+            connection.setAutoCommit(false);
+
+            statement.setString(1,product.getProductCode());
+            statement.setString(2,product.getProductName());
+            statement.setString(3,product.getProductLine());
+            statement.setString(4,product.getProductScale());
+            statement.setString(5,product.getProductVendor());
+            statement.setString(6,product.getProductDescription());
+            statement.setInt(7,product.getQuantityInStock());
+            statement.setDouble(8,product.getBuyPrice());
+
+            connection.commit();
+        } catch (SQLException e) {
+            Logger.warn("Check you query or your parameters.");
+            throw new InvalidQuery("You didn't enter the correct parameters or the object entered already exists.");
+        }
+
+    }
+
+    @Override
+    public void executeInsertProduct_Order(Product product, OrderDetail orderDetail, ConnectionManager conn) throws InvalidQuery {
+        String insertProduct = "insert into products values (?,?,?,?,?,?,?,?,?,?)";
+        String insertOneOrder = "insert into orderdetails values(?,?,?,?,?)";
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement statementProduct = connection.prepareStatement(insertProduct);
+             PreparedStatement statementOrder = connection.prepareStatement(insertOneOrder)){
+
+            connection.setAutoCommit(false);
+
+            statementProduct.setString(1,product.getProductCode());
+            statementProduct.setString(2,product.getProductName());
+            statementProduct.setString(3,product.getProductLine());
+            statementProduct.setString(4,product.getProductScale());
+            statementProduct.setString(5,product.getProductVendor());
+            statementProduct.setString(6,product.getProductDescription());
+            statementProduct.setInt(7,product.getQuantityInStock());
+            statementProduct.setDouble(8,product.getBuyPrice());
+
+            statementOrder.setInt(1,orderDetail.getOrderNumber());
+            statementOrder.setString(2, orderDetail.getProductCode());
+            statementOrder.setInt(3,orderDetail.getQuantityOrdered());
+            statementOrder.setDouble(4,orderDetail.getPriceEach());
+            statementOrder.setInt(5,orderDetail.getOrderLineNumber());
+
+            connection.commit();
+        } catch (SQLException e) {
+            Logger.warn("Check you query or your parameters.");
+            throw new InvalidQuery("You didn't enter the correct parameters or the object entered already exists.");
+        }
+    }
 }

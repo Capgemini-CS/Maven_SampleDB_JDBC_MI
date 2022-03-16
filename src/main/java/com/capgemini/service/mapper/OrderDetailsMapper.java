@@ -14,4 +14,15 @@ public class OrderDetailsMapper {
 
         return orderDetailDTO;
     }
+
+    public static OrderDetail fromOrderDetDTOtoOrderDetail( OrderDetailDTO orderDetailDTO){
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setOrderNumber(orderDetailDTO.getOrderNumber());
+        orderDetail.setProductCode(orderDetailDTO.getProductCode());
+        orderDetail.setQuantityOrdered(orderDetailDTO.getQuantityOrdered());
+        orderDetail.setPriceEach(orderDetailDTO.getPriceEach());
+        orderDetail.setOrderLineNumber(orderDetailDTO.getOrderLineNumber());
+
+        return orderDetail;
+    }
 }

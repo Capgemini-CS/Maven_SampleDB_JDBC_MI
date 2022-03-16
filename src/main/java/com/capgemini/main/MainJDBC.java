@@ -1,5 +1,7 @@
 package com.capgemini.main;
 
+import com.capgemini.connection.ConnectionManager;
+import com.capgemini.connection.MySQLConnectionManager;
 import com.capgemini.exception.InvalidQuery;
 import com.capgemini.model.Customer;
 import com.capgemini.model.OrderDetail;
@@ -11,6 +13,8 @@ import com.capgemini.repository.RepositoryInterface;
 import com.capgemini.service.CustomerService;
 import com.capgemini.service.OrderDetailService;
 import com.capgemini.service.ProductService;
+import com.capgemini.service.dto.OrderDetailDTO;
+import com.capgemini.service.dto.ProductDTO;
 
 public class MainJDBC {
 
@@ -57,8 +61,6 @@ public class MainJDBC {
         //productService.deleteProducts("S08_1001");
 
 
-
-
         RepositoryInterface<OrderDetail> orderDetailRepositoryInterface = new OrderDetailRepository();
         OrderDetailService orderDetailService = new OrderDetailService(orderDetailRepositoryInterface);
         orderDetailService.showAllOrdersWithPriceHigherThan100();
@@ -98,7 +100,6 @@ public class MainJDBC {
         System.out.println();
 
         //orderDetailService.deleteOnOrdersTable("10101");
-
 
 
         RepositoryInterface<Customer> customerRepositoryInterface = new CustomerRepository();
@@ -156,77 +157,32 @@ public class MainJDBC {
 
 
         orderDetailService.showOrdersByIdAndHisProducts("S10_2016");
+
+
+        System.out.println();
+        System.out.println();
+        System.out.println("*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****");
+        System.out.println("*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****");
+        System.out.println("*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****");
+        System.out.println("*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****");
+        System.out.println("*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****_____-----_____*****");
+        System.out.println();
+        System.out.println();
+
+        ConnectionManager connection = new MySQLConnectionManager();
+
+
+        Product productMouse = new Product("S989_1908", "Mouse mKvet", "Classic Cars", "1:18", "Bavaria Motor", "This mouse is cool", 800, 120.34);
+        OrderDetail orderMouse = new OrderDetail(10100, "S989_1908", 56, 156.23, 6);
+        //productService.insertProductAndOrderDetail(productMouse, orderMouse, connection);
+
+
+        ProductDTO productCarMini = new ProductDTO("S02_2222", "Mini cooper", "Classic Cars", "1:18", "Bavaria Motor", "This mouse is cool", 800, 120.34);
+        productService.insertProductToDB(productCarMini, connection);
+
+
+        OrderDetailDTO orderDetailCarMini = new OrderDetailDTO(10196, "S12_1108", 56, 156.23, 2);
+        orderDetailService.insertOneOrderDetail(orderDetailCarMini,connection);
+
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    Constants urlAndAccount = new Constants();
-//    Connection connection = DriverManager.getConnection(urlAndAccount.getUrl(),urlAndAccount.getUserName(),urlAndAccount.getPassword());
-//
-//    Employee employee = new Employee();
-//        employee.executeSql(connection);
-//
-//                Product product = new Product();
-//                product.executeSql(connection);
-//
-//                String queryWhoShowHowManyProductsAreInTable = "SELECT COUNT(productCode) as NumberfOfProducts FROM PRODUCTS;";
-//                product.querySelectWithSql(connection,queryWhoShowHowManyProductsAreInTable);
-//
-//                //TODO RESOLVE THIS PROBLEM
-//                String queryWhoShowTheValueOfEachOrder = "SELECT (o.priceEach * o.quantityOrdered) as Value_Of_Order, o.orderNumber as Order_Number, orders.orderDate as ORDER_DATE\n" +
-//                "FROM orders orders\n" +
-//                "RIGHT JOIN orderdetails o ON o.orderNumber = orders.orderNumber\n" +
-//                "ORDER BY orders.orderDate ASC;";
-//                product.querySelectWithSql(connection,queryWhoShowTheValueOfEachOrder);
